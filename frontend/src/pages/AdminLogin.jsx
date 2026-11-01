@@ -16,7 +16,7 @@ function AdminLogin() {
 
     try {
       const response = await fetch(
-        "http://localhost:5000/api/admin/login",
+        "https://smart-scholarship-portal.onrender.com/api/admin/login",
         {
           method: "POST",
           headers: { "Content-Type": "application/json" },
@@ -31,7 +31,7 @@ function AdminLogin() {
         data = JSON.parse(text);
       } catch {
         throw new Error(
-          "Backend returned an invalid response. Restart your backend."
+          "Backend returned an invalid response. Please try again."
         );
       }
 

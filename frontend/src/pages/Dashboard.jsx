@@ -4,7 +4,7 @@ import { useCallback, useEffect, useState } from "react";
 import ScholarshipDetails from "./ScholarshipDetails.jsx";
 import "../App.css";
 
-const API = "http://localhost:5000";
+const API = "https://smart-scholarship-portal.onrender.com";
 
 const scholarships = [
   { id: 1, title: "Merit Excellence Award", amount: "₹25,000", category: "Merit-Based", icon: "🏆" },

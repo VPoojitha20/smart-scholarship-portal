@@ -1,3 +1,4 @@
+
 import { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import "../App.css";
@@ -36,7 +37,7 @@ function Register() {
 
     try {
       const response = await fetch(
-        "http://localhost:5000/api/students/register",
+        "https://smart-scholarship-portal.onrender.com/api/students/register",
         {
           method: "POST",
           headers: { "Content-Type": "application/json" },
@@ -56,7 +57,7 @@ function Register() {
         console.error("Backend returned a non-JSON response:", responseText);
 
         throw new Error(
-          "The backend returned a webpage instead of JSON. Check backend/server.js and restart the backend."
+          "The backend returned a webpage instead of JSON. Please try again."
         );
       }
 
@@ -77,7 +78,7 @@ function Register() {
 
       if (err instanceof TypeError) {
         setMessage(
-          "Cannot connect to the backend. Make sure your backend is running on port 5000 and CORS is enabled."
+          "Cannot connect to the deployed backend. Please try again."
         );
       } else {
         setMessage(err.message || "Registration failed.");

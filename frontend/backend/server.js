@@ -1,4 +1,3 @@
-
 const express = require("express");
 const cors = require("cors");
 const mongoose = require("mongoose");
@@ -14,7 +13,7 @@ app.use(express.json());
 
 const JWT_SECRET = process.env.JWT_SECRET;
 
-// Added: accept PDF, JPG and PNG files, up to 2 MB each.
+// Accept PDF, JPG and PNG files, up to 2 MB each.
 const upload = multer({
   storage: multer.memoryStorage(),
   limits: { fileSize: 2 * 1024 * 1024, files: 3 },
@@ -54,7 +53,6 @@ const studentSchema = new mongoose.Schema({
   password: { type: String, required: true },
 });
 
-// Added: document information and file contents are stored with the application.
 const documentSchema = new mongoose.Schema(
   {
     originalName: String,
@@ -81,14 +79,11 @@ const applicationSchema = new mongoose.Schema(
       reason: { type: String, default: "" },
       conditions: { type: mongoose.Schema.Types.Mixed, default: {} },
     },
-
-    // Added: uploaded proof documents.
     documents: {
       collegeId: documentSchema,
       marksheet: documentSchema,
       incomeCertificate: documentSchema,
     },
-
     status: {
       type: String,
       enum: ["Pending", "Approved", "Rejected"],
@@ -291,7 +286,6 @@ app.post("/api/admin/login", (req, res) => {
 });
 
 // Student submits an application with uploaded proof documents.
-// Form field names: collegeId, marksheet, incomeCertificate.
 app.post(
   "/api/applications",
   requireStudent,
@@ -401,7 +395,6 @@ app.post(
 );
 
 // Student views their own saved applications.
-// Exclude file contents from normal application responses.
 app.get("/api/applications/my", requireStudent, async (req, res) => {
   try {
     const applications = await Application.find({
@@ -478,7 +471,7 @@ app.get("/api/admin/applications", requireAdmin, async (req, res) => {
   }
 });
 
-// Added: admin-only endpoint to view an uploaded document.
+// Admin views an uploaded document.
 app.get(
   "/api/admin/applications/:id/documents/:documentType",
   requireAdmin,
@@ -581,6 +574,7 @@ app.patch(
   }
 );
 
+// Start backend server
 async function startServer() {
   try {
     if (!process.env.MONGO_URI) {
@@ -594,8 +588,11 @@ async function startServer() {
     await mongoose.connect(process.env.MONGO_URI);
     console.log("MongoDB connected successfully!");
 
-    app.listen(5000, () => {
-      console.log("Backend running at http://localhost:5000");
+    // Render supplies its own port; locally this uses port 5000.
+    const PORT = process.env.PORT || 5000;
+
+    app.listen(PORT, () => {
+      console.log(`Backend running on port ${PORT}`);
     });
   } catch (error) {
     console.error("Backend startup failed:", error.message);

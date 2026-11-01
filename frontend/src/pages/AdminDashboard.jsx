@@ -1,7 +1,8 @@
+
 import { useCallback, useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 
-const API = "http://localhost:5000";
+const API = "https://smart-scholarship-portal.onrender.com";
 
 const colors = {
   page: "#F5F6FC",
@@ -639,6 +640,5 @@ function statusStyle(status) {
     ...(styles[status] || styles.Pending),
   };
 }
-
 
 export default AdminDashboard;
