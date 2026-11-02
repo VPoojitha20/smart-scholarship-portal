@@ -1,5 +1,4 @@
 
-
 import { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import "../App.css";
@@ -22,7 +21,7 @@ function Login() {
 
     try {
       const response = await fetch(
-        "http://localhost:5000/api/students/login",
+        "https://smart-scholarship-portal.onrender.com/api/students/login",
         {
           method: "POST",
           headers: {
@@ -42,7 +41,7 @@ function Login() {
         await response.text();
 
         throw new Error(
-          "The backend did not return JSON. Make sure the correct backend server is running on port 5000."
+          "The backend did not return JSON. Please check the backend deployment."
         );
       }
 
@@ -58,28 +57,25 @@ function Login() {
         );
       }
 
-      // The token is required to submit scholarship applications.
       if (!data.token) {
         throw new Error(
           "Login response has no token. Please check the backend login response."
         );
       }
 
-      // Save the login token and student details.
       localStorage.setItem("studentToken", data.token);
       localStorage.setItem(
         "student",
         JSON.stringify(data.student)
       );
 
-      // Open the student dashboard.
       navigate("/dashboard");
     } catch (err) {
       setError(true);
 
       setMessage(
         err instanceof TypeError
-          ? "Cannot connect to the backend. Make sure it is running on port 5000."
+          ? "Cannot connect to the backend. Please check your internet connection or backend server."
           : err.message
       );
     } finally {
